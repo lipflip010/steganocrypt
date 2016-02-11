@@ -1,6 +1,9 @@
 package tammena.malte;
 
+import com.tozny.crypto.AesCbcWithIntegrity;
+
 public class Verschluesselung {
+
 	public static String encode(String t, String k) {
 		if (k.length() == 0 && t.length() == 0) {
 			return("Missing values!");
@@ -9,6 +12,7 @@ public class Verschluesselung {
 		} else if (t.length() == 0) {
 			return("Missing text!");
 		}
+
 		return t;
 	}
 
