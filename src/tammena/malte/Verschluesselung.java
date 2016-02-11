@@ -13,6 +13,7 @@ import java.security.NoSuchAlgorithmException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -33,7 +34,7 @@ public class Verschluesselung extends JPanel {
 		setLayout(new BorderLayout());
 
 		ActionHandler ah = new ActionHandler();
-		
+
 
 		input = new JTextArea();
 		input.addKeyListener(new KeyHandler());
@@ -41,9 +42,9 @@ public class Verschluesselung extends JPanel {
 		key = new JTextField();
 		philipp = new JButton("Philipp");
 		philipp.addActionListener(ah);
-		encode = new JButton("Verschlüsseln");
+		encode = new JButton("Verschlï¿½sseln");
 		encode.addActionListener(ah);
-		decode = new JButton("Entschlüsseln");
+		decode = new JButton("Entschlï¿½sseln");
 		decode.addActionListener(ah);
 
 		JPanel buttons = new JPanel(new GridLayout(1, 0));
@@ -77,7 +78,7 @@ public class Verschluesselung extends JPanel {
 				philipp();
 		}
 	}
-	
+
 	private class KeyHandler extends KeyAdapter {
 		public void keyReleased(KeyEvent e) {
 			super.keyReleased(e);
@@ -86,7 +87,7 @@ public class Verschluesselung extends JPanel {
 	}
 
 	public static void build() {
-		JFrame f = new JFrame("RSA - Verschlüsselung");
+		JFrame f = new JFrame("RSA - Verschlï¿½sselung");
 		f.add(new Verschluesselung());
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setMinimumSize(new Dimension(400, 600));
@@ -114,7 +115,7 @@ public class Verschluesselung extends JPanel {
 			text = text.replaceAll("Philipp", "Nutte");
 		if (text.contains("Malte"))
 			text = text.replaceAll("Malte", "Lord Malte");
-		
+
 		return text;
 	}
 
