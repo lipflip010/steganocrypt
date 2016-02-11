@@ -185,15 +185,6 @@ public class Archive {
 
 	}
 
-	public static String bytesToHex(byte bytes) {
-		char[] hexChars = new char[2];
-		for (int j = 0; j < 1; j++) {
-			int v = bytes & 0xFF;
-			hexChars[j * 2] = hexArray[v >>> 4];
-			hexChars[j * 2 + 1] = hexArray[v & 0x0F];
-		}
-		return new String(hexChars);
-	}
-}
+
 
 // if (byte_old.equals("1f") && byte_current.equals("8b")) {
