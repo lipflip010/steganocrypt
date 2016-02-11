@@ -10,10 +10,10 @@ import java.awt.event.KeyEvent;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
-
+import java.util.Random;
+import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -30,20 +30,27 @@ public class Verschluesselung extends JPanel {
 	private JButton decode;
 	private JButton philipp;
 
+	private boolean encode_was_last;
+
 	public Verschluesselung() {
 		setLayout(new BorderLayout());
 
+		encode_was_last = true;
+
 		ActionHandler ah = new ActionHandler();
-		
+		KeyHandler kh = new KeyHandler();
+
 		input = new JTextArea();
-		input.addKeyListener(new KeyHandler());
+		input.addKeyListener(kh);
 		output = new JTextArea();
+		output.setEditable(false);
 		key = new JTextField();
+		key.addKeyListener(kh);
 		philipp = new JButton("Philipp");
 		philipp.addActionListener(ah);
-		encode = new JButton("Verschl�sseln");
+		encode = new JButton("Verschluesseln");
 		encode.addActionListener(ah);
-		decode = new JButton("Entschl�sseln");
+		decode = new JButton("Entschluesseln");
 		decode.addActionListener(ah);
 
 		JPanel buttons = new JPanel(new GridLayout(1, 0));
@@ -66,13 +73,13 @@ public class Verschluesselung extends JPanel {
 
 	private class ActionHandler implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			if (input.getText().trim().length() == 0)
+			if (input.getText().length() == 0)
 				return;
 
 			if ((JButton) e.getSource() == encode)
-				output.setText(encode(input.getText()));
+				output.setText(encode(input.getText(), key.getText()));
 			else if ((JButton) e.getSource() == decode)
-				output.setText(decode(input.getText()));
+				output.setText(decode(input.getText(), key.getText()));
 			else if ((JButton) e.getSource() == philipp)
 				philipp();
 		}
@@ -81,45 +88,46 @@ public class Verschluesselung extends JPanel {
 	private class KeyHandler extends KeyAdapter {
 		public void keyReleased(KeyEvent e) {
 			super.keyReleased(e);
-			output.setText(encode(input.getText().trim()));
+			if (encode_was_last) {
+				output.setText(encode(input.getText(), key.getText()));
+			} else {
+				output.setText(decode(input.getText(), key.getText()));
+			}
 		}
 	}
 
 	public static void build() {
-		JFrame f = new JFrame("RSA - Verschl�sselung");
+		JFrame f = new JFrame("Verschluesselung");
 		f.add(new Verschluesselung());
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.setMinimumSize(new Dimension(400, 600));
+		f.setMinimumSize(new Dimension(600, 700));
 		f.setLocationRelativeTo(null);
 		f.setVisible(true);
 	}
 
 	public void philipp() {
-		KeyPairGenerator kpg = null;
-		try {
-			kpg = KeyPairGenerator.getInstance("RSA");
-		} catch (NoSuchAlgorithmException ex) {
-			ex.printStackTrace();
+	}
+
+	public String encode(String t, String k) {
+		if (k.length() == 0 && t.length() == 0) {
+			return("Missing values!");
+		} else if (k.length() == 0) {
+			return("Missing key!");
+		} else if (t.length() == 0) {
+			return("Missing text!");
 		}
-		KeyPair kp = kpg.generateKeyPair();
-		System.out.println(kp.getPublic());
-		System.out.println(kp.getPrivate());
-
+		return t;
 	}
 
-	public String encode(String text) {
-		if (text.contains("Hallo"))
-			text = text.replaceAll("Hallo", "Fick dich");
-		if (text.contains("Philipp"))
-			text = text.replaceAll("Philipp", "Nutte");
-		if (text.contains("Malte"))
-			text = text.replaceAll("Malte", "Lord Malte");
-
-		return text;
-	}
-
-	public String decode(String text) {
-		return text;
+	public String decode(String t, String k) {
+		if (k.length() == 0 && t.length() == 0) {
+			return("Missing values!");
+		} else if (k.length() == 0) {
+			return("Missing key!");
+		} else if (t.length() == 0) {
+			return("Missing text!");
+		}
+		return t;
 	}
 
 	public static void main(String[] args) {
