@@ -22,16 +22,22 @@ import java.util.zip.GZIPOutputStream;
 
 public class Archive {
 
-	private static final String SOURCE = "G:\\Dokumente\\Workspace\\steganography\\src\\hans.png";
-	private static final String MESSAGE = "G:\\Dokumente\\Workspace\\steganography\\src\\Secret_Message.txt";
-	private static final String GZIP_FILE = "G:\\Dokumente\\Workspace\\steganography\\src\\Secret_Message.gz";
-	private static final String MESSAGE_DECOMPRESSED = "G:\\Dokumente\\Workspace\\steganography\\src\\Secret_Message_decompressed.txt";
-	final protected static char[] hexArray = "0123456789abcdef".toCharArray();
+	private String SOURCE;
+	private String MESSAGE;
+	private String GZIP_FILE;
+	private	String MESSAGE_DECOMPRESSED;
+	
+	
+	public Archive(String medium,String message, String temp, String message_decompressed){
+		SOURCE = medium;
+		MESSAGE = message;
+		GZIP_FILE = temp;
+		MESSAGE_DECOMPRESSED = message_decompressed;
+	}
 	/*
 	 * 	Diese Methode verpackt eine Datei nach dem GZIP Format
 	 * 	und hängt das Ergebnis an die Quelldatei.
 	 */
-	
 	public void compress() {
 
 		byte[] buffer = new byte[1024];
