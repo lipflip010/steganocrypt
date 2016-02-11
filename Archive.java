@@ -1,4 +1,4 @@
-package stenography;//http://www.mkyong.com/java/how-to-compress-a-file-in-gzip-format/
+package steganography;//http://www.mkyong.com/java/how-to-compress-a-file-in-gzip-format/
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
@@ -86,7 +86,7 @@ public class Archive {
 					gzip_magic = true;
 					gzip_position = i -3;
 				}
-				in.
+				
 				if (gzip_magic) {
 					out.write(file[i]);
 				}
