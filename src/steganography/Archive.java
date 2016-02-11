@@ -27,7 +27,10 @@ public class Archive {
 	private static final String GZIP_FILE = "G:\\Dokumente\\Workspace\\steganography\\src\\Secret_Message.gz";
 	private static final String MESSAGE_DECOMPRESSED = "G:\\Dokumente\\Workspace\\steganography\\src\\Secret_Message_decompressed.txt";
 	final protected static char[] hexArray = "0123456789abcdef".toCharArray();
-
+	/*
+	 * 	Diese Methode verpackt eine Datei nach dem GZIP Format
+	 * 	und hängt das Ergebnis an die Quelldatei.
+	 */
 	
 	public void compress() {
 
@@ -56,6 +59,11 @@ public class Archive {
 			ex.printStackTrace();
 		}
 	}
+	/*	
+	 * 	Diese Methode sucht in der angegebenen Datei nach einem GZIP Abschnitt
+	 * 	und schreibt diesen in eine temporäre .gz Datei. Zudem wird der  GZIP
+	 * 	Abschnitt von der Quelldatei entfernt.
+	 */
 
 	public void extractGZIP() {
 		byte[] buffer = new byte[1024];
@@ -123,7 +131,10 @@ public class Archive {
 		}
 
 	}
-
+	/*	Diese Methode entpackt die temporäre .gz Datei nach
+	 * 	MESSAGE_DECOMPRESSED und löscht die temporäre .gz
+	 * 	Datei. 
+	 */
 
 
 	public void decompress() {
@@ -156,7 +167,10 @@ public class Archive {
 		}
 		
 	}
-
+	/*
+	 * 	Diese Funktion diente zum Testen einer Suche
+	 * 	in einem Bytearray nach einer bestimmten by Folge
+	 */
 	public void bytetest() {
 		byte[] test = { -1, 31, -117, 64, 1, -26 };
 		String ashex_old = "";
