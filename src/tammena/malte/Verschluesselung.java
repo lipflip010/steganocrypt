@@ -34,8 +34,7 @@ public class Verschluesselung extends JPanel {
 		setLayout(new BorderLayout());
 
 		ActionHandler ah = new ActionHandler();
-
-
+		
 		input = new JTextArea();
 		input.addKeyListener(new KeyHandler());
 		output = new JTextArea();
