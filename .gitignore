@@ -3,3 +3,7 @@
 .project
 *.swp
 .classpath
+*.ai
+
+*.pdf
+*bin/

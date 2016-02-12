@@ -23,7 +23,7 @@ import java.util.zip.GZIPOutputStream;
 
 public class Archive {
 
-	private String _medium; 				// Datei, in der Daten versteckt werden sollen. Getestete Dateitypen: .jpg, .ai, .png
+	private String _medium; 				// Datei, in der Daten versteckt werden sollen. Getestete Dateitypen: .jpg, .ai, .png, .pdf
 	private String _message; 				// Daten, die übertragen werden sollen 
 	private String _temp;					// Temporäre Datei, in der der GZIP Abschnitt zwischengepeichert wird
 	private	String _message_decompressed;	// Datei, in der das entpackte Ergebnis gespeichert wird
@@ -121,7 +121,7 @@ public class Archive {
 			}
 			int last_complete_byte_array = (gzip_position-gzip_position%buffer.length)/buffer.length;
 			int second_loop_start = gzip_position-gzip_position%buffer.length;
-			System.out.println(last_complete_byte_array);
+			//System.out.println(last_complete_byte_array);
 
 			if(gzip_magic){
 				FileOutputStream in_restored = new FileOutputStream(_medium);//
