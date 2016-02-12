@@ -24,76 +24,77 @@ import tammena.malte.Verschluesselung;
 public class VPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
+
 	private static final String LABEL_JFRAME_TITLE = "Verschluesselung";
 	private static final String LABEL_BUTTON_ENCODE = "Encode";
 	private static final String LABEL_BUTTON_DECODE = "Decode";
 	private static final String LABEL_BUTTON_STEGANOGRAPHY = "Steganography";
 
-	private JTextArea input;
-	private JTextArea output;
-	private JTextField key;
-	private JButton encode;
-	private JButton decode;
-	private JButton steganography;
+	private JTextArea _input;
+	private JTextArea _output;
+	private JTextField _key;
+	private JButton _encode;
+	private JButton _decode;
+	private JButton _steganography;
 
-	private boolean encode_was_last;
+	private boolean _encode_was_last;
 
 	public VPanel() {
 		setLayout(new BorderLayout());
 
-		encode_was_last = true;
+		_encode_was_last = true;
 
 		ActionHandler ah = new ActionHandler();
 		KeyHandler kh = new KeyHandler();
 
-		input = new JTextArea();
-		input.addKeyListener(kh);
-		output = new JTextArea();
-		output.setEditable(false);
-		key = new JTextField();
-		key.addKeyListener(kh);
-		steganography = new JButton(LABEL_BUTTON_STEGANOGRAPHY);
-		steganography.addActionListener(ah);
-		encode = new JButton(LABEL_BUTTON_ENCODE);
-		encode.addActionListener(ah);
-		decode = new JButton(LABEL_BUTTON_DECODE);
-		decode.addActionListener(ah);
+		_output = new JTextArea();
+		_input.addKeyListener(kh);
+		_output = new JTextArea();
+		_output.setEditable(false);
+		_key = new JTextField();
+		_key.addKeyListener(kh);
+		_steganography = new JButton(LABEL_BUTTON_STEGANOGRAPHY);
+		_steganography.addActionListener(ah);
+		_encode = new JButton(LABEL_BUTTON_ENCODE);
+		_encode.addActionListener(ah);
+		_decode = new JButton(LABEL_BUTTON_DECODE);
+		_decode.addActionListener(ah);
 
 		JPanel buttons = new JPanel(new GridLayout(1, 0));
-		buttons.add(decode);
-		buttons.add(key);
-		buttons.add(encode);
+		buttons.add(_decode);
+		buttons.add(_key);
+		buttons.add(_encode);
 
 		JPanel inputpanel = new JPanel(new BorderLayout());
-		inputpanel.add(new JScrollPane(input), BorderLayout.CENTER);
+		inputpanel.add(new JScrollPane(_input), BorderLayout.CENTER);
 		inputpanel.add(buttons, BorderLayout.SOUTH);
 
 		JPanel center = new JPanel(new GridLayout(0, 1));
 		center.add(inputpanel);
 
-		center.add(new JScrollPane(output));
+		center.add(new JScrollPane(_output));
 
 		add(center, BorderLayout.CENTER);
-		add(steganography, BorderLayout.SOUTH);
+		add(_steganography, BorderLayout.SOUTH);
 	}
 
 	private class ActionHandler implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			if ((JButton) e.getSource() == encode)
-				output.setText(Verschluesselung.encode(input.getText(), key.getText()));
-			else if ((JButton) e.getSource() == decode)
-				output.setText(Verschluesselung.decode(input.getText(), key.getText()));
-			else if ((JButton) e.getSource() == steganography)
+			if ((JButton) e.getSource() == _encode)
+				_output.setText(Verschluesselung.encode(_input.getText(), _key.getText()));
+			else if ((JButton) e.getSource() == _decode)
+				_output.setText(Verschluesselung.decode(_input.getText(), _key.getText()));
+			else if ((JButton) e.getSource() == _steganography)
 				Verschluesselung.steganography();
 		}
 	}
 
 	private class KeyHandler extends KeyAdapter {
 		public void keyReleased(KeyEvent e) {
-			if (encode_was_last) {
-				output.setText(Verschluesselung.encode(input.getText(), key.getText()));
+			if (_encode_was_last) {
+				_output.setText(Verschluesselung.encode(_input.getText(), _key.getText()));
 			} else {
-				output.setText(Verschluesselung.decode(input.getText(), key.getText()));
+				_output.setText(Verschluesselung.decode(_input.getText(), _key.getText()));
 			}
 		}
 	}
