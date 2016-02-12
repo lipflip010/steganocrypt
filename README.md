@@ -1,6 +1,6 @@
 # steganocrypt
 
-## tested file formats as hiding carrier medium
+### tested file formats as hiding carrier medium
 - .jpg
 - .ai
 - .png
