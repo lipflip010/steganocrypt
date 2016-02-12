@@ -23,10 +23,10 @@ import java.util.zip.GZIPOutputStream;
 
 public class Archive {
 
-	private String _medium;
-	private String _message;
-	private String _temp;
-	private	String _message_decompressed;
+	private String _medium; 				// Datei, in der Daten versteckt werden sollen. Getestete Dateitypen: .jpg, .ai, .png
+	private String _message; 				// Daten, die übertragen werden sollen 
+	private String _temp;					// Temporäre Datei, in der der GZIP Abschnitt zwischengepeichert wird
+	private	String _message_decompressed;	// Datei, in der das entpackte Ergebnis gespeichert wird
 	
 	
 	public Archive(String medium,String message, String temp, String message_decompressed){
