@@ -22,17 +22,17 @@ import java.util.zip.GZIPOutputStream;
 
 public class Archive {
 
-	private String SOURCE;
-	private String MESSAGE;
-	private String GZIP_FILE;
-	private	String MESSAGE_DECOMPRESSED;
+	private String _medium;
+	private String _message;
+	private String _temp;
+	private	String _message_decompressed;
 	
 	
 	public Archive(String medium,String message, String temp, String message_decompressed){
-		SOURCE = medium;
-		MESSAGE = message;
-		GZIP_FILE = temp;
-		MESSAGE_DECOMPRESSED = message_decompressed;
+		_medium = medium;
+		_message = message;
+		_temp = temp;
+		_message_decompressed = message_decompressed;
 	}
 	/*
 	 * 	Diese Methode verpackt eine Datei nach dem GZIP Format
@@ -44,9 +44,9 @@ public class Archive {
 
 		try {
 
-			GZIPOutputStream gzos = new GZIPOutputStream(new FileOutputStream(SOURCE, true));
+			GZIPOutputStream gzos = new GZIPOutputStream(new FileOutputStream(_medium, true));
 
-			FileInputStream in = new FileInputStream(MESSAGE);
+			FileInputStream in = new FileInputStream(_message);
 
 			int len;
 
@@ -59,7 +59,7 @@ public class Archive {
 			gzos.finish();
 			gzos.close();
 
-			System.out.println("Compressed "+MESSAGE+"and appended it to: "+SOURCE);
+			System.out.println("Compressed "+_message+"and appended it to: "+_medium);
 
 		} catch (IOException ex) {
 			ex.printStackTrace();
@@ -80,8 +80,8 @@ public class Archive {
 	
 		try {
 
-			InputStream in = new BufferedInputStream(new FileInputStream(SOURCE));
-			FileOutputStream out = new FileOutputStream(GZIP_FILE);
+			InputStream in = new BufferedInputStream(new FileInputStream(_medium));
+			FileOutputStream out = new FileOutputStream(_temp);
 			
 			ByteArrayOutputStream bout = new ByteArrayOutputStream();
 			
@@ -120,12 +120,12 @@ public class Archive {
 			}
 
 			if(gzip_magic){
-				FileOutputStream in_restored = new FileOutputStream(SOURCE);
+				FileOutputStream in_restored = new FileOutputStream(_medium);
 				for (int i = 0; i < gzip_position; i++) {
 					in_restored.write(file[i]);
 				}
 			}
-			String log = (gzip_magic) ? "GZIP found and extracted to: " + GZIP_FILE : "No GZIP found";
+			String log = (gzip_magic) ? "GZIP found and extracted to: " + _temp : "No GZIP found";
 			System.out.println(log);
 			
 			in.close();
@@ -147,13 +147,13 @@ public class Archive {
 		byte[] buffer = new byte[1024];
 		int len;
 		try {
-			GZIPInputStream gzis = new GZIPInputStream(new FileInputStream(GZIP_FILE));
-			FileOutputStream out = new FileOutputStream(MESSAGE_DECOMPRESSED);
+			GZIPInputStream gzis = new GZIPInputStream(new FileInputStream(_temp));
+			FileOutputStream out = new FileOutputStream(_message_decompressed);
 
 			while ((len = gzis.read(buffer)) != -1) {
 				out.write(buffer, 0, len);
 			}
-			System.out.println("Decompressed to: " + MESSAGE_DECOMPRESSED);
+			System.out.println("Decompressed to: " + _message_decompressed);
 
 			gzis.close();
 			out.close();
@@ -166,7 +166,7 @@ public class Archive {
 			e.printStackTrace();
 		}
 		try {
-			Files.deleteIfExists(FileSystems.getDefault().getPath(GZIP_FILE));
+			Files.deleteIfExists(FileSystems.getDefault().getPath(_temp));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
