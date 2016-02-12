@@ -25,7 +25,7 @@ public class Archive {
 
 	private String _medium; 				// Datei, in der Daten versteckt werden sollen. Getestete Dateitypen: .jpg, .ai, .png, .pdf
 	private String _message; 				// Daten, die übertragen werden sollen 
-	private String _temp;					// Temporäre Datei, in der der GZIP Abschnitt zwischengepeichert wird
+	private String _temp;					// Temporaere Datei, in der der GZIP Abschnitt zwischengepeichert wird
 	private	String _message_decompressed;	// Datei, in der das entpackte Ergebnis gespeichert wird
 	
 	
@@ -37,7 +37,7 @@ public class Archive {
 	}
 	/*
 	 * 	Diese Methode verpackt eine Datei nach dem GZIP Format
-	 * 	und hängt das Ergebnis an die Quelldatei.
+	 * 	und haengt das Ergebnis an die Quelldatei.
 	 */
 	public void compress() {
 
@@ -68,7 +68,7 @@ public class Archive {
 	}
 	/*	
 	 * 	Diese Methode sucht in der angegebenen Datei nach einem GZIP Abschnitt
-	 * 	und schreibt diesen in eine temporäre .gz Datei. Zudem wird der  GZIP
+	 * 	und schreibt diesen in eine temporaere .gz Datei. Zudem wird der  GZIP
 	 * 	Abschnitt von der Quelldatei entfernt.
 	 */
 
@@ -147,8 +147,8 @@ public class Archive {
 		}
 
 	}
-	/*	Diese Methode entpackt die temporäre .gz Datei nach
-	 * 	MESSAGE_DECOMPRESSED und löscht die temporäre .gz
+	/*	Diese Methode entpackt die temporaere .gz Datei nach
+	 * 	MESSAGE_DECOMPRESSED und löscht die temporaere .gz
 	 * 	Datei. 
 	 */
 
@@ -185,7 +185,7 @@ public class Archive {
 	}
 	/*
 	 * 	Diese Funktion diente zum Testen einer Suche
-	 * 	in einem Bytearray nach einer bestimmten by Folge
+	 * 	in einem Bytearray nach einer bestimmten byte Folge
 	 */
 	public void bytetest() {
 		byte[] test = { -1, 31, -117, 64, 1, -26 };
@@ -203,4 +203,4 @@ public class Archive {
 
 
 }
-// if (byte_old.equals("1f") && byte_current.equals("8b")) {
+
