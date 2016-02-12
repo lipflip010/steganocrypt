@@ -1,6 +1,7 @@
 package steganography;
 
 import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
 
@@ -118,8 +119,16 @@ public class Archive {
 			
 				
 			}
+			int last_complete_byte_array = (gzip_position-gzip_position%buffer.length)/buffer.length;
+			System.out.println(last_complete_byte_array);
 
 			if(gzip_magic){
+//				FileOutputStream in_restored = new FileOutputStream(_medium);
+//				ByteArrayInputStream bin = new ByteArrayInputStream(file);
+//				for (int i = 0;(len = bin.read(buffer))>0 ; i++) {
+//					
+//					in_restored.write(buffer, 0, len);
+//				}
 				FileOutputStream in_restored = new FileOutputStream(_medium);
 				for (int i = 0; i < gzip_position; i++) {
 					in_restored.write(file[i]);
