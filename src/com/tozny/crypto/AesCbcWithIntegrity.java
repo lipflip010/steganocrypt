@@ -23,7 +23,7 @@
 
 package com.tozny.crypto;
 
-import tammena.malte.VBase64;
+import tammena.malte.EBase64;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -72,7 +72,7 @@ public class AesCbcWithIntegrity {
     private static final String PBE_ALGORITHM = "PBKDF2WithHmacSHA1";
 
     //Made BASE_64_FLAGS public as it's useful to know for compatibility.
-    public static final int VBase64_FLAGS = VBase64.NO_WRAP;
+    public static final int VBase64_FLAGS = EBase64.NO_WRAP;
     //default for testing
     static final AtomicBoolean prngFixed = new AtomicBoolean(false);
 
@@ -104,11 +104,11 @@ public class AesCbcWithIntegrity {
             throw new IllegalArgumentException("Cannot parse aesKey:hmacKey");
 
         } else {
-            byte[] confidentialityKey = VBase64.decode(keysArr[0], VBase64_FLAGS);
+            byte[] confidentialityKey = EBase64.decode(keysArr[0], VBase64_FLAGS);
             if (confidentialityKey.length != AES_KEY_LENGTH_BITS /8) {
                 throw new InvalidKeyException("VBase64 decoded key is not " + AES_KEY_LENGTH_BITS + " bytes");
             }
-            byte[] integrityKey = VBase64.decode(keysArr[1], VBase64_FLAGS);
+            byte[] integrityKey = EBase64.decode(keysArr[1], VBase64_FLAGS);
             if (integrityKey.length != HMAC_KEY_LENGTH_BITS /8) {
                 throw new InvalidKeyException("VBase64 decoded key is not " + HMAC_KEY_LENGTH_BITS + " bytes");
             }
@@ -183,7 +183,7 @@ public class AesCbcWithIntegrity {
      * @throws GeneralSecurityException
      */
     public static SecretKeys generateKeyFromPassword(String password, String salt) throws GeneralSecurityException {
-        return generateKeyFromPassword(password, VBase64.decode(salt, VBase64_FLAGS));
+        return generateKeyFromPassword(password, EBase64.decode(salt, VBase64_FLAGS));
     }
 
     /**
@@ -202,7 +202,7 @@ public class AesCbcWithIntegrity {
      * @return a base 64 encoded salt string suitable to pass into generateKeyFromPassword.
      */
     public static String saltString(byte[] salt) {
-        return VBase64.encodeToString(salt, VBase64_FLAGS);
+        return EBase64.encodeToString(salt, VBase64_FLAGS);
     }
 
 
@@ -423,8 +423,8 @@ public class AesCbcWithIntegrity {
          */
         @Override
         public String toString () {
-            return VBase64.encodeToString(getConfidentialityKey().getEncoded(), VBase64_FLAGS)
-                    + ":" + VBase64.encodeToString(getIntegrityKey().getEncoded(), VBase64_FLAGS);
+            return EBase64.encodeToString(getConfidentialityKey().getEncoded(), VBase64_FLAGS)
+                    + ":" + EBase64.encodeToString(getIntegrityKey().getEncoded(), VBase64_FLAGS);
         }
 
         @Override
@@ -519,9 +519,9 @@ public class AesCbcWithIntegrity {
             if (civArray.length != 3) {
                 throw new IllegalArgumentException("Cannot parse iv:ciphertext:mac");
             } else {
-                iv = VBase64.decode(civArray[0], VBase64_FLAGS);
-                mac = VBase64.decode(civArray[1], VBase64_FLAGS);
-                cipherText = VBase64.decode(civArray[2], VBase64_FLAGS);
+                iv = EBase64.decode(civArray[0], VBase64_FLAGS);
+                mac = EBase64.decode(civArray[1], VBase64_FLAGS);
+                cipherText = EBase64.decode(civArray[2], VBase64_FLAGS);
             }
         }
 
@@ -547,9 +547,9 @@ public class AesCbcWithIntegrity {
          */
         @Override
         public String toString() {
-            String ivString = VBase64.encodeToString(iv, VBase64_FLAGS);
-            String cipherTextString = VBase64.encodeToString(cipherText, VBase64_FLAGS);
-            String macString = VBase64.encodeToString(mac, VBase64_FLAGS);
+            String ivString = EBase64.encodeToString(iv, VBase64_FLAGS);
+            String cipherTextString = EBase64.encodeToString(cipherText, VBase64_FLAGS);
+            String macString = EBase64.encodeToString(mac, VBase64_FLAGS);
             return String.format(ivString + ":" + macString + ":" + cipherTextString);
         }
 

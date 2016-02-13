@@ -1,5 +1,6 @@
 package tammena.malte;
 
+import com.tozny.crypto.AesCbcWithIntegrity;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -7,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.security.GeneralSecurityException;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
@@ -18,10 +20,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import tammena.malte.Cryptography;
 
-import tammena.malte.Verschluesselung;
-
-public class VPanel extends JPanel {
+public class EPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
@@ -39,7 +40,7 @@ public class VPanel extends JPanel {
 
 	private boolean _encode_was_last;
 
-	public VPanel() {
+	public EPanel() {
 		setLayout(new BorderLayout());
 
 		_encode_was_last = true;
@@ -47,7 +48,7 @@ public class VPanel extends JPanel {
 		ActionHandler ah = new ActionHandler();
 		KeyHandler kh = new KeyHandler();
 
-		_output = new JTextArea();
+		_input = new JTextArea();
 		_input.addKeyListener(kh);
 		_output = new JTextArea();
 		_output.setEditable(false);
@@ -81,27 +82,27 @@ public class VPanel extends JPanel {
 	private class ActionHandler implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			if ((JButton) e.getSource() == _encode)
-				_output.setText(Verschluesselung.encode(_input.getText(), _key.getText()));
+				_output.setText(Cryptography.encode(_input.getText(), _key.getText()));
 			else if ((JButton) e.getSource() == _decode)
-				_output.setText(Verschluesselung.decode(_input.getText(), _key.getText()));
+				_output.setText(Cryptography.decode(_input.getText(), _key.getText()));
 			else if ((JButton) e.getSource() == _steganography)
-				Verschluesselung.steganography();
+				Cryptography.steganography();
 		}
 	}
 
 	private class KeyHandler extends KeyAdapter {
 		public void keyReleased(KeyEvent e) {
 			if (_encode_was_last) {
-				_output.setText(Verschluesselung.encode(_input.getText(), _key.getText()));
+				_output.setText(Cryptography.encode(_input.getText(), _key.getText()));
 			} else {
-				_output.setText(Verschluesselung.decode(_input.getText(), _key.getText()));
+				_output.setText(Cryptography.decode(_input.getText(), _key.getText()));
 			}
 		}
 	}
 
 	public static void build() {
 		JFrame f = new JFrame(LABEL_JFRAME_TITLE);
-		f.add(new VPanel());
+		f.add(new EPanel());
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setMinimumSize(new Dimension(600, 700));
 		f.setLocationRelativeTo(null);
@@ -109,6 +110,6 @@ public class VPanel extends JPanel {
 	}
 
 	public static void main(String[] args) {
-		VPanel.build();
+		EPanel.build();
 	}
 }

@@ -2,7 +2,7 @@ package tammena.malte;
 
 import java.util.Base64;
 
-public class VBase64 {
+public class EBase64 {
 
     public static final int NO_WRAP = 0;
 
