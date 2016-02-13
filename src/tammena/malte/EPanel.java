@@ -88,7 +88,7 @@ public class EPanel extends JPanel {
 				_output.setText(Cryptography.decode(_input.getText(), _key.getText()));
 				_encode_was_last = false;
 			} else if ((JButton) e.getSource() == _steganography)
-				Cryptography.steganography();
+				Cryptography.steganography(EPanel.this);
 		}
 	}
 

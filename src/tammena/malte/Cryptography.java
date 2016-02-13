@@ -1,8 +1,10 @@
 package tammena.malte;
 
 import com.tozny.crypto.AesCbcWithIntegrity;
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
+import javax.swing.JFileChooser;
 import steganography.Archive;
 
 public class Cryptography {
@@ -47,7 +49,32 @@ public class Cryptography {
 		return t;
 	}
 
-	public static void steganography() {
-		Archive a = new Archive();
+	public static void steganography(EPanel ep) {
+		// Archive a = new Archive();
+		String os = System.getProperty("os.name").toLowerCase();
+		JFileChooser jfc = new JFileChooser();
+		String output;
+		String tempdir;
+		String input;
+		File f;
+
+		if (os.indexOf("linux") >= 0) {
+			System.out.println("LINUX");
+			f = new File("/tmp/Cryptography/");
+			if (! f.exists())
+				f.mkdirs();
+		} else if (os.indexOf("win") >= 0) {
+			System.out.println("WINDOWS");
+			f = new File("C:\\Users\\" + System.getProperty("user.name") + "\\AppData\\Local\\Temp\\Cryptography\\");
+			if (! f.exists())
+				f.mkdirs();
+		}
+		
+		if (jfc.showOpenDialog(ep) == JFileChooser.APPROVE_OPTION) {
+			output = jfc.getSelectedFile().toString();
+		} else {
+			return;
+		}
+		System.out.println(output);
 	}
 }
