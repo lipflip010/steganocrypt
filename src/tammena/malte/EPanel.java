@@ -81,11 +81,13 @@ public class EPanel extends JPanel {
 
 	private class ActionHandler implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			if ((JButton) e.getSource() == _encode)
+			if ((JButton) e.getSource() == _encode) {
 				_output.setText(Cryptography.encode(_input.getText(), _key.getText()));
-			else if ((JButton) e.getSource() == _decode)
+				_encode_was_last = true;
+			} else if ((JButton) e.getSource() == _decode) {
 				_output.setText(Cryptography.decode(_input.getText(), _key.getText()));
-			else if ((JButton) e.getSource() == _steganography)
+				_encode_was_last = false;
+			} else if ((JButton) e.getSource() == _steganography)
 				Cryptography.steganography();
 		}
 	}

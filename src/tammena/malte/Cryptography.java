@@ -13,9 +13,11 @@ public class Cryptography {
 			return("Missing key!");
 		} else if (t.length() == 0) {
 			return("Missing text!");
+		} else if (k.length() < 2) {
+			return("Key to short!");
 		}
 		try {
-			AesCbcWithIntegrity.SecretKeys keys = AesCbcWithIntegrity.generateKeyFromPassword(k, AesCbcWithIntegrity.generateSalt());
+			AesCbcWithIntegrity.SecretKeys keys = AesCbcWithIntegrity.generateKeyFromPassword(k, k.substring(0, 2));
 			AesCbcWithIntegrity.CipherTextIvMac cipher = AesCbcWithIntegrity.encrypt(t, keys);
 			t = cipher.toString();
 		} catch (UnsupportedEncodingException e) {
@@ -33,15 +35,17 @@ public class Cryptography {
 			return("Missing key!");
 		} else if (t.length() == 0) {
 			return("Missing text!");
+		} else if (k.length() < 2) {
+			return("Key to short!");
 		}
 		try {
-			AesCbcWithIntegrity.SecretKeys keys = AesCbcWithIntegrity.generateKeyFromPassword(k, AesCbcWithIntegrity.generateSalt());
+			AesCbcWithIntegrity.SecretKeys keys = AesCbcWithIntegrity.generateKeyFromPassword(k, k.substring(0, 2));
 			AesCbcWithIntegrity.CipherTextIvMac cipher = new AesCbcWithIntegrity.CipherTextIvMac(t);
 			t = AesCbcWithIntegrity.decryptString(cipher, keys);
 		} catch (GeneralSecurityException e) {
 
 		} catch (UnsupportedEncodingException e) {
-			
+
 		}
 		return t;
 	}
