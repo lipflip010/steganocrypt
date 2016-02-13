@@ -3,6 +3,7 @@ package tammena.malte;
 import com.tozny.crypto.AesCbcWithIntegrity;
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
+import steganography.Archive;
 
 public class Cryptography {
 
@@ -21,9 +22,7 @@ public class Cryptography {
 			AesCbcWithIntegrity.CipherTextIvMac cipher = AesCbcWithIntegrity.encrypt(t, keys);
 			t = cipher.toString();
 		} catch (UnsupportedEncodingException e) {
-
 		} catch (GeneralSecurityException e) {
-
 		}
 		return t;
 	}
@@ -43,14 +42,12 @@ public class Cryptography {
 			AesCbcWithIntegrity.CipherTextIvMac cipher = new AesCbcWithIntegrity.CipherTextIvMac(t);
 			t = AesCbcWithIntegrity.decryptString(cipher, keys);
 		} catch (GeneralSecurityException e) {
-
 		} catch (UnsupportedEncodingException e) {
-
 		}
 		return t;
 	}
 
 	public static void steganography() {
-
+		Archive a = new Archive();
 	}
 }

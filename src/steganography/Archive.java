@@ -19,15 +19,12 @@ import java.text.SimpleDateFormat;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
-
-
 public class Archive {
 
 	private String _medium; 				// Datei, in der Daten versteckt werden sollen. Getestete Dateitypen: .jpg, .ai, .png, .pdf
-	private String _message; 				// Daten, die uebertragen werden sollen 
+	private String _message; 				// Daten, die uebertragen werden sollen
 	private String _temp;					// Temporaere Datei, in der der GZIP Abschnitt zwischengepeichert wird
 	private	String _message_decompressed;	// Datei, in der das entpackte Ergebnis gespeichert wird
-
 
 	public Archive(String medium,String message, String temp, String message_decompressed){
 		_medium = medium;
@@ -35,6 +32,7 @@ public class Archive {
 		_temp = temp;
 		_message_decompressed = message_decompressed;
 	}
+
 	/*
 	 * 	Diese Methode verpackt eine Datei nach dem GZIP Format
 	 * 	und haengt das Ergebnis an die Quelldatei.
@@ -44,34 +42,29 @@ public class Archive {
 		byte[] buffer = new byte[1024];
 
 		try {
-
 			GZIPOutputStream gzos = new GZIPOutputStream(new FileOutputStream(_medium, true));
-
 			FileInputStream in = new FileInputStream(_message);
-
 			int len;
 
 			while ((len = in.read(buffer)) > 0) {
 				gzos.write(buffer, 0, len);
 			}
-
 			in.close();
 
 			gzos.finish();
 			gzos.close();
 
 			System.out.println("Compressed "+_message+"and appended it to: "+_medium);
-
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
 	}
+
 	/*
 	 * 	Diese Methode sucht in der angegebenen Datei nach einem GZIP Abschnitt
 	 * 	und schreibt diesen in eine temporaere .gz Datei. Zudem wird der  GZIP
 	 * 	Abschnitt von der Quelldatei entfernt.
 	 */
-
 	public void extractGZIP() {
 		byte[] buffer = new byte[1024];
 		boolean gzip_magic = false;
@@ -83,15 +76,12 @@ public class Archive {
 
 			InputStream in = new BufferedInputStream(new FileInputStream(_medium));
 			FileOutputStream out = new FileOutputStream(_temp);
-
 			ByteArrayOutputStream bout = new ByteArrayOutputStream();
 
 			while ((len = in.read(buffer)) > 0) {
 				bout.write(buffer, 0, len);
 			}
-
 			byte[] file = bout.toByteArray();
-
 
 			for (int i = (int)Math.round(file.length*0.9); i < file.length; i++) {
 				lastBytes[0] = String.format("%02x", file[i]);
@@ -116,9 +106,8 @@ public class Archive {
 				lastBytes[3] = lastBytes[2];
 				lastBytes[2] = lastBytes[1];
 				lastBytes[1] =lastBytes[0];
-
-
 			}
+
 			int last_complete_byte_array = (gzip_position-gzip_position%buffer.length)/buffer.length;
 			int second_loop_start = gzip_position-gzip_position%buffer.length;
 			//System.out.println(last_complete_byte_array);
@@ -127,7 +116,6 @@ public class Archive {
 				FileOutputStream in_restored = new FileOutputStream(_medium);//
 				ByteArrayInputStream bin = new ByteArrayInputStream(file);
 				for (int i = 0;(len = bin.read(buffer))>0 && i <last_complete_byte_array; i++) {
-
 					in_restored.write(buffer, 0, len);
 				}
 //				FileOutputStream in_restored = new FileOutputStream(_medium);
@@ -145,14 +133,12 @@ public class Archive {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 	}
+
 	/*	Diese Methode entpackt die temporaere .gz Datei nach
 	 * 	MESSAGE_DECOMPRESSED und l�scht die temporaere .gz
 	 * 	Datei.
 	 */
-
-
 	public void decompress() {
 		byte[] buffer = new byte[1024];
 		int len;
@@ -181,8 +167,8 @@ public class Archive {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
+
 	/*
 	 * 	Diese Funktion diente zum Testen einer Suche
 	 * 	in einem Bytearray nach einer bestimmten byte Folge
@@ -198,8 +184,5 @@ public class Archive {
 			}
 			ashex_old = ashex;
 		}
-
 	}
-
-
 }
