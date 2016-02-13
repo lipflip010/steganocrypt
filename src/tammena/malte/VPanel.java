@@ -65,12 +65,12 @@ public class VPanel extends JPanel {
 		buttons.add(_key);
 		buttons.add(_encode);
 
-		JPanel inputpanel = new JPanel(new BorderLayout());
-		inputpanel.add(new JScrollPane(_input), BorderLayout.CENTER);
-		inputpanel.add(buttons, BorderLayout.SOUTH);
+		JPanel input_panel = new JPanel(new BorderLayout());
+		input_panel.add(new JScrollPane(_input), BorderLayout.CENTER);
+		input_panel.add(buttons, BorderLayout.SOUTH);
 
 		JPanel center = new JPanel(new GridLayout(0, 1));
-		center.add(inputpanel);
+		center.add(input_panel);
 
 		center.add(new JScrollPane(_output));
 
