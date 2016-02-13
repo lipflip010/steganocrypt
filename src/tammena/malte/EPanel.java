@@ -50,9 +50,11 @@ public class EPanel extends JPanel {
 		KeyHandler kh = new KeyHandler();
 
 		_input = new JTextArea();
+		_input.setLineWrap(true);
 		_input.addKeyListener(kh);
 		_output = new JTextArea();
 		_output.setEditable(false);
+		_output.setLineWrap(true);
 		_key = new JTextField();
 		_key.addKeyListener(kh);
 		_steganography = new JButton(LABEL_BUTTON_STEGANOGRAPHY);
