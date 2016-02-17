@@ -1,4 +1,5 @@
 package steganography;
+import tammena.malte.*;
 
 public class Main {
 
@@ -13,6 +14,7 @@ public class Main {
     	gZip.extractGZIP();
     	//gZip.bytetest();
     	gZip.decompress();
+    	
     }
  
 

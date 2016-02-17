@@ -104,46 +104,97 @@ public class Cryptography {
 		}
 		return s;
 	}
-
-	public static void steganography(EPanel ep) {
-		// Archive a = new Archive();
-		String os = System.getProperty("os.name").toLowerCase();
+	
+	public static void createFile(File f) {
+		try {
+			f.createNewFile();
+		} catch (IOException e) {
+			System.err.println("Erstellen der Datei nicht moeglich:");
+			e.printStackTrace();
+		}
+	}
+	
+	public static boolean fileExists(File f, boolean mkdir, boolean delete, boolean create) {
+		if (! f.getParentFile().exists()) {
+			if (mkdir) {
+				if (create) {
+					createFile(f);
+				} else {
+					return false;
+				}
+			}
+		} else {
+			if (! f.exists()) {
+				if (create) {
+					createFile(f);
+				} else {
+					return false;
+				}
+			} else {
+				if (delete) {
+					if (create) {
+						createFile(f);
+					} else {
+						return true;
+					}
+				}
+			}
+		}
+		return true;
+	}
+	
+	private static File chooseFile() {
 		JFileChooser jfc = new JFileChooser();
-		String stegano_file;
-		String tempdir;
-		String carrier;
-		File f = null;
-
+		jfc.setDialogTitle("Bitte Bild o.ä. auswählen!");
+		if (jfc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+			return jfc.getSelectedFile();
+		}
+		return null;
+	}
+	
+	private static File findTempFile(String s) {
+		String os = System.getProperty("os.name").toLowerCase();
+		File f;
+		
 		if (os.indexOf("linux") >= 0) {
 			System.out.println("LINUX");
-			f = new File(tempdir = "/tmp/Cryptography/");
+			f = new File("/tmp/Cryptography/");
 			if (! f.exists())
 				f.mkdirs();
-			f = new File(f.toPath() + "/encr_message");
+			f = new File(f.toPath() + "/" + s);
 			if (f.exists())
 				if (! f.delete())
 					System.err.println("No writing access to temp files");
 		} else if (os.indexOf("win") >= 0) {
 			System.out.println("WINDOWS");
-			f = new File(tempdir = "C:\\Users\\" + System.getProperty("user.name") + "\\AppData\\Local\\Temp\\Cryptography\\");
+			f = new File("C:\\Users\\" + System.getProperty("user.name") + "\\AppData\\Local\\Temp\\Cryptography\\");
 			if (! f.exists())
 				f.mkdirs();
-			f = new File(f.toPath() + "\\encr_message");
+			f = new File(f.toPath() + "\\" + s);
 			if (f.exists())
 				if (! f.delete())
 					System.err.println("No writing access to temp files");
 		} else {
-			return;
+			System.err.println("Unbekanntes Betriebssystem!");
+			return null;
 		}
+		return f;
+	}
+	
+	public static void appendToFile(String t) {
+		File medium = chooseFile();
+		File temp = findTempFile("temp");
+		File text = findTempFile("text");
+		File decr = findTempFile("decompressed");
+		fileExists(temp, false, false, true);
+		fileExists(text, false, false, true);
+		fileExists(decr, false, false, true);
+		fileExists(medium, false, false, true);
+		writeFile(text.toString(), t);
+		Archive ar = new Archive(medium.toString(), text.toString(), temp.toString(), decr.toString());
+		ar.compress();
+	}
 
-		writeFile(f.toString(), "Hallo Malte, alles gut???");
-		System.out.println(readFile(f.toString()));
-
-		if (jfc.showOpenDialog(ep) == JFileChooser.APPROVE_OPTION) {
-			stegano_file = jfc.getSelectedFile().toString();
-		} else {
-			return;
-		}
-		System.out.println(stegano_file);
+	public static void steganography(EPanel ep) {
 	}
 }

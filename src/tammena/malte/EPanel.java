@@ -1,6 +1,5 @@
 package tammena.malte;
 
-import com.tozny.crypto.AesCbcWithIntegrity;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -8,20 +7,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.security.GeneralSecurityException;
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
-import java.security.NoSuchAlgorithmException;
-import java.util.Random;
-import javax.swing.AbstractAction;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import tammena.malte.Cryptography;
 
 public class EPanel extends JPanel {
 
@@ -91,7 +83,7 @@ public class EPanel extends JPanel {
 				_output.setText(Cryptography.decode(_input.getText(), _key.getText()));
 				_encode_was_last = false;
 			} else if ((JButton) e.getSource() == _steganography)
-				Cryptography.steganography(EPanel.this);
+				Cryptography.appendToFile(_output.getText());
 		}
 	}
 
