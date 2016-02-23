@@ -183,16 +183,18 @@ public class Cryptography {
 	
 	public static void appendToFile(String t) {
 		File medium = chooseFile();
-		File temp = findTempFile("temp");
-		File text = findTempFile("text");
-		File decr = findTempFile("decompressed");
-		fileExists(temp, false, false, true);
-		fileExists(text, false, false, true);
-		fileExists(decr, false, false, true);
-		fileExists(medium, false, false, true);
-		writeFile(text.toString(), t);
-		Archive ar = new Archive(medium.toString(), text.toString(), temp.toString(), decr.toString());
-		ar.compress();
+		if (medium != null) {
+			File temp = findTempFile("temp");
+			File text = findTempFile("text");
+			File decr = findTempFile("decompressed");
+			fileExists(temp, false, false, true);
+			fileExists(text, false, false, true);
+			fileExists(decr, false, false, true);
+			fileExists(medium, false, false, true);
+			writeFile(text.toString(), t);
+			Archive ar = new Archive(medium.toString(), text.toString(), temp.toString(), decr.toString());
+			ar.compress();
+		}
 	}
 
 	public static void steganography(EPanel ep) {
