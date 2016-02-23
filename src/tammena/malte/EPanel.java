@@ -57,6 +57,8 @@ public class EPanel extends JPanel {
 		_choose_carrier = new JButton(LABEL_BUTTON_STEGANOGRAPHY);
 		_hide = new JButton(LABEL_BUTTON_HIDE);
 		_load = new JButton(LABEL_BUTTON_LOAD);
+		_hide.addActionListener(ah);
+		_load.addActionListener(ah);
 		_choose_carrier.addActionListener(ah);
 		_encode = new JButton(LABEL_BUTTON_ENCODE);
 		_encode.addActionListener(ah);
@@ -94,8 +96,15 @@ public class EPanel extends JPanel {
 			} else if ((JButton) e.getSource() == _decode) {
 				_output.setText(Cryptography.decode(_input.getText(), _key.getText()));
 				_encode_was_last = false;
-			} else if ((JButton) e.getSource() == _choose_carrier)
+			} else if ((JButton) e.getSource() == _choose_carrier){
 				Cryptography.appendToFile(_output.getText());
+			}else if((JButton) e.getSource() == _hide){
+				System.out.println("Hide");
+			}
+			else if((JButton) e.getSource() == _load){
+				System.out.println("Load");
+			}
+				
 		}
 	}
 

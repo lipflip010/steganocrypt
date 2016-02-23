@@ -196,6 +196,9 @@ public class Cryptography {
 			ar.compress();
 		}
 	}
+	public void hide(){
+		//ar.compress();
+	}
 
 	public static void steganography(EPanel ep) {
 	}
