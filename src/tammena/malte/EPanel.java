@@ -102,7 +102,7 @@ public class EPanel extends JPanel {
 			} else if ((JButton) e.getSource() == _choose_carrier){
 				cry.appendToFile(_output.getText());
 			}else if((JButton) e.getSource() == _hide){
-				System.out.println("Hide");
+				cry.hide();
 			}
 			else if((JButton) e.getSource() == _load){
 				System.out.println("Load");

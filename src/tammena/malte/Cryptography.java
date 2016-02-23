@@ -200,7 +200,7 @@ public class Cryptography {
 		if (medium != null) {
 			writeFile(text.toString(), t);
 			ar = new Archive(medium.toString(), text.toString(), temp.toString(), decr.toString());
-			ar.compress();
+			
 		}
 	}
 
@@ -216,7 +216,9 @@ public class Cryptography {
 	}
 
 	public void hide(){
-		//ar.compress();
+		if (ar!=null) {
+			ar.compress();
+		}
 	}
 
 	public void steganography(EPanel ep) {
