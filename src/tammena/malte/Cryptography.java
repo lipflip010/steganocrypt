@@ -200,11 +200,13 @@ public class Cryptography {
 			fileExists(medium, false, false, true);
 			writeFile(text.toString(), t);
 			ar = new Archive(medium.toString(), text.toString(), temp.toString(), decr.toString());
-			ar.compress();
+			
 		}
 	}
 	public void hide(){
-		//ar.compress();
+		if (ar!=null) {
+			ar.compress();
+		}
 	}
 
 	public void steganography(EPanel ep) {
