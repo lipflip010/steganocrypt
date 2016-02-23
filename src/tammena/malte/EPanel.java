@@ -25,7 +25,7 @@ public class EPanel extends JPanel {
 	private static final String LABEL_BUTTON_STEGANOGRAPHY = "Choose File";
 	private static final String LABEL_BUTTON_LOAD ="Load";
 	private static final String LABEL_BUTTON_HIDE ="Hide";
-	
+
 
 	private JTextArea _input;
 	private JTextArea _output;
@@ -80,7 +80,7 @@ public class EPanel extends JPanel {
 		JPanel center = new JPanel(new GridLayout(0, 1));
 		center.add(input_panel);
 		center.add(new JScrollPane(_output));
-		
+
 		JPanel steganography = new JPanel(new GridLayout(0,3));
 		steganography.add(_choose_carrier);
 		steganography.add(_load);
@@ -88,7 +88,7 @@ public class EPanel extends JPanel {
 
 		add(center, BorderLayout.CENTER);
 		add(steganography, BorderLayout.SOUTH);
-		
+
 	}
 
 	private class ActionHandler implements ActionListener {
@@ -107,7 +107,7 @@ public class EPanel extends JPanel {
 			else if((JButton) e.getSource() == _load){
 				System.out.println("Load");
 			}
-				
+
 		}
 	}
 

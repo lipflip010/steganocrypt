@@ -20,7 +20,13 @@ public class Cryptography {
 	private Archive ar;
 
 	public Cryptography() {
+		temp = findTempFile("temp");
+		text = findTempFile("text");
+		decr = findTempFile("decompressed");
 
+		fileExists(temp, false, false, true);
+		fileExists(text, false, false, true);
+		fileExists(decr, false, false, true);
 	}
 
 	public String encode(String t, String k) {
@@ -189,20 +195,26 @@ public class Cryptography {
 	}
 
 	public void appendToFile(String t) {
-		medium = chooseFile();
+		if (medium == null)
+			medium = chooseFile();
 		if (medium != null) {
-			temp = findTempFile("temp");
-			text = findTempFile("text");
-			decr = findTempFile("decompressed");
-			fileExists(temp, false, false, true);
-			fileExists(text, false, false, true);
-			fileExists(decr, false, false, true);
-			fileExists(medium, false, false, true);
 			writeFile(text.toString(), t);
 			ar = new Archive(medium.toString(), text.toString(), temp.toString(), decr.toString());
 			ar.compress();
 		}
 	}
+
+	public String loadfromFile() {
+		if (medium == null)
+			medium = chooseFile();
+		if (medium != null) {
+			ar.extractGZIP();
+			ar.decompress();
+			return readFile(medium.toString());
+		}
+		return "File not loaded!";
+	}
+
 	public void hide(){
 		//ar.compress();
 	}
