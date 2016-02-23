@@ -33,10 +33,13 @@ public class EPanel extends JPanel {
 
 	private boolean _encode_was_last;
 
+	private Cryptography cry;
+
 	public EPanel() {
 		setLayout(new BorderLayout());
 
 		_encode_was_last = true;
+		cry = new Cryptography();
 
 		ActionHandler ah = new ActionHandler();
 		KeyHandler kh = new KeyHandler();
@@ -77,22 +80,22 @@ public class EPanel extends JPanel {
 	private class ActionHandler implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			if ((JButton) e.getSource() == _encode) {
-				_output.setText(Cryptography.encode(_input.getText(), _key.getText()));
+				_output.setText(cry.encode(_input.getText(), _key.getText()));
 				_encode_was_last = true;
 			} else if ((JButton) e.getSource() == _decode) {
-				_output.setText(Cryptography.decode(_input.getText(), _key.getText()));
+				_output.setText(cry.decode(_input.getText(), _key.getText()));
 				_encode_was_last = false;
 			} else if ((JButton) e.getSource() == _steganography)
-				Cryptography.appendToFile(_output.getText());
+				cry.appendToFile(_output.getText());
 		}
 	}
 
 	private class KeyHandler extends KeyAdapter {
 		public void keyReleased(KeyEvent e) {
 			if (_encode_was_last) {
-				_output.setText(Cryptography.encode(_input.getText(), _key.getText()));
+				_output.setText(cry.encode(_input.getText(), _key.getText()));
 			} else {
-				_output.setText(Cryptography.decode(_input.getText(), _key.getText()));
+				_output.setText(cry.decode(_input.getText(), _key.getText()));
 			}
 		}
 	}

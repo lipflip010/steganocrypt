@@ -16,7 +16,14 @@ import steganography.Archive;
 
 public class Cryptography {
 
-	public static String encode(String t, String k) {
+	private File medium, text, temp, decr;
+	private Archive ar;
+
+	public Cryptography() {
+
+	}
+
+	public String encode(String t, String k) {
 		if (k.length() == 0 && t.length() == 0) {
 			return("Missing values!");
 		} else if (k.length() == 0) {
@@ -36,7 +43,7 @@ public class Cryptography {
 		return t;
 	}
 
-	public static String decode(String t, String k) {
+	public String decode(String t, String k) {
 		if (k.length() == 0 && t.length() == 0) {
 			return("Missing values!");
 		} else if (k.length() == 0) {
@@ -56,7 +63,7 @@ public class Cryptography {
 		return t;
 	}
 
-	public static boolean writeFile(String file, String t) {
+	public boolean writeFile(String file, String t) {
 		File f = new File(file);
 		File pa = new File(f.getParent());
 
@@ -86,7 +93,7 @@ public class Cryptography {
 		return true;
 	}
 
-	public static String readFile(String file) {
+	public String readFile(String file) {
 		File f = new File(file);
 		String s = "", line = null;
 		if (! f.exists() || ! f.canRead())
@@ -104,8 +111,8 @@ public class Cryptography {
 		}
 		return s;
 	}
-	
-	public static void createFile(File f) {
+
+	public void createFile(File f) {
 		try {
 			f.createNewFile();
 		} catch (IOException e) {
@@ -113,8 +120,8 @@ public class Cryptography {
 			e.printStackTrace();
 		}
 	}
-	
-	public static boolean fileExists(File f, boolean mkdir, boolean delete, boolean create) {
+
+	public boolean fileExists(File f, boolean mkdir, boolean delete, boolean create) {
 		if (! f.getParentFile().exists()) {
 			if (mkdir) {
 				if (create) {
@@ -142,20 +149,20 @@ public class Cryptography {
 		}
 		return true;
 	}
-	
-	private static File chooseFile() {
+
+	private File chooseFile() {
 		JFileChooser jfc = new JFileChooser();
-		jfc.setDialogTitle("Bitte Bild o.ä. auswählen!");
+		jfc.setDialogTitle("Bitte Bild o.ae. auswaehlen!");
 		if (jfc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
 			return jfc.getSelectedFile();
 		}
 		return null;
 	}
-	
-	private static File findTempFile(String s) {
+
+	private File findTempFile(String s) {
 		String os = System.getProperty("os.name").toLowerCase();
 		File f;
-		
+
 		if (os.indexOf("linux") >= 0) {
 			System.out.println("LINUX");
 			f = new File("/tmp/Cryptography/");
@@ -180,23 +187,23 @@ public class Cryptography {
 		}
 		return f;
 	}
-	
-	public static void appendToFile(String t) {
-		File medium = chooseFile();
+
+	public void appendToFile(String t) {
+		medium = chooseFile();
 		if (medium != null) {
-			File temp = findTempFile("temp");
-			File text = findTempFile("text");
-			File decr = findTempFile("decompressed");
+			temp = findTempFile("temp");
+			text = findTempFile("text");
+			decr = findTempFile("decompressed");
 			fileExists(temp, false, false, true);
 			fileExists(text, false, false, true);
 			fileExists(decr, false, false, true);
 			fileExists(medium, false, false, true);
 			writeFile(text.toString(), t);
-			Archive ar = new Archive(medium.toString(), text.toString(), temp.toString(), decr.toString());
+			ar = new Archive(medium.toString(), text.toString(), temp.toString(), decr.toString());
 			ar.compress();
 		}
 	}
 
-	public static void steganography(EPanel ep) {
+	public void steganography(EPanel ep) {
 	}
 }
