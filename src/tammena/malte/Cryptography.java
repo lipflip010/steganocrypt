@@ -20,7 +20,6 @@ public class Cryptography {
 	private Archive ar;
 
 	public Cryptography() {
-		ar = new Archive(medium.toString(), text.toString(), temp.toString(), decr.toString());
 
 		temp = findTempFile("temp");
 		text = findTempFile("text");
@@ -29,6 +28,15 @@ public class Cryptography {
 		fileExists(temp, false, false, true);
 		fileExists(text, false, false, true);
 		fileExists(decr, false, false, true);
+	}
+
+	public void chooseMedium() {
+		if (medium != null)
+			return;
+		medium = chooseFile();
+		if (medium == null)
+			return;
+		ar = new Archive(medium.toString(), text.toString(), temp.toString(), decr.toString());
 	}
 
 	public String encode(String t, String k) {
@@ -75,28 +83,15 @@ public class Cryptography {
 		File f = new File(file);
 		File pa = new File(f.getParent());
 
-		if (! pa.exists() && ! pa.mkdirs()) {
-			System.out.println("Parent missing");
-			return false;
-		}
-		if (f.exists()) {
-			f.delete();
-		}
+		fileExists(f, true, true, true);
 		boolean created_a_new_file = false;
 		try {
-			created_a_new_file = f.createNewFile();
-		} catch (IOException e) {}
-		if (! created_a_new_file && f.canWrite()) {
+			BufferedWriter bf = new BufferedWriter(new FileWriter(f));
+			bf.write(t.toCharArray());
+			bf.flush();
+			bf.close();
+		} catch (IOException e) {
 			return false;
-		} else {
-			try {
-				BufferedWriter bf = new BufferedWriter(new FileWriter(f));
-				bf.write(t.toCharArray());
-				bf.flush();
-				bf.close();
-			} catch (IOException e) {
-				return false;
-			}
 		}
 		return true;
 	}
@@ -197,25 +192,20 @@ public class Cryptography {
 	}
 
 	public void hide(String t) {
-		if (medium == null)
-			medium = chooseFile();
+		chooseMedium();
 		if (medium != null) {
 			writeFile(text.toString(), t);
 			ar.compress();
 		}
 	}
 
-	public String loadfromFile() {
-		if (medium == null)
-			medium = chooseFile();
+	public String load() {
+		chooseMedium();
 		if (medium != null) {
 			ar.extractGZIP();
 			ar.decompress();
 			return readFile(medium.toString());
 		}
 		return "File not loaded!";
-	}
-
-	public void steganography(EPanel ep) {
 	}
 }

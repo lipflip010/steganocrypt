@@ -100,14 +100,13 @@ public class EPanel extends JPanel {
 				_output.setText(cry.decode(_input.getText(), _key.getText()));
 				_encode_was_last = false;
 			} else if ((JButton) e.getSource() == _choose_carrier){
-				cry.appendToFile(_output.getText());
+
 			}else if((JButton) e.getSource() == _hide){
-				cry.hide();
+				cry.hide(_output.getText());
 			}
 			else if((JButton) e.getSource() == _load){
-				System.out.println("Load");
+				_input.setText(cry.load());
 			}
-
 		}
 	}
 
