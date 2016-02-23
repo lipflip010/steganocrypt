@@ -26,20 +26,20 @@ public class Archive {
 							// zwischengepeichert wird
 	private String _message_decompressed; // Datei, in der das entpackte
 											// Ergebnis gespeichert wird
-
+	private boolean _carrier_valid;
 	public Archive(String medium, String message, String temp, String message_decompressed) {
 		_medium = medium;
 		_message = message;
 		_temp = temp;
 		_message_decompressed = message_decompressed;
-
+		_carrier_valid = this.isCarrierValid();
 	}
 
 	/*
 	 * Diese Methode verpackt eine Datei nach dem GZIP Format und haengt das
 	 * Ergebnis an die Quelldatei.
 	 */
-	public void testCarrier() {
+	public boolean isCarrierValid() {
 		byte[] buffer = new byte[1024];
 		boolean gzip_magic = false;
 		String[] lastBytes = { "", "", "", "" };
@@ -49,7 +49,7 @@ public class Archive {
 		try {
 
 			InputStream in = new BufferedInputStream(new FileInputStream(_medium));
-			FileOutputStream out = new FileOutputStream(_temp);
+			
 			ByteArrayOutputStream bout = new ByteArrayOutputStream();
 
 			while ((len = in.read(buffer)) > 0) {
@@ -71,31 +71,33 @@ public class Archive {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
+		
 		String log = (gzip_magic) ? "GZIP-Header found" : "No GZIP found";
 		System.out.println(log);
-
+		return !gzip_magic;
 	}
 
 	public void compress() {
 
-		byte[] buffer = new byte[1024];
+		if (_carrier_valid) {
+			byte[] buffer = new byte[1024];
+			try {
+				GZIPOutputStream gzos = new GZIPOutputStream(new FileOutputStream(_medium, true));
+				FileInputStream in = new FileInputStream(_message);
+				int len;
 
-		try {
-			GZIPOutputStream gzos = new GZIPOutputStream(new FileOutputStream(_medium, true));
-			FileInputStream in = new FileInputStream(_message);
-			int len;
+				while ((len = in.read(buffer)) > 0) {
+					gzos.write(buffer, 0, len);
+				}
+				in.close();
 
-			while ((len = in.read(buffer)) > 0) {
-				gzos.write(buffer, 0, len);
-			}
-			in.close();
+				gzos.finish();
+				gzos.close();
 
-			gzos.finish();
-			gzos.close();
-
-			System.out.println("Compressed " + _message + "and appended it to: " + _medium);
-		} catch (IOException ex) {
-			ex.printStackTrace();
+				System.out.println("Compressed " + _message + "and appended it to: " + _medium);
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			} 
 		}
 	}
 
@@ -136,13 +138,6 @@ public class Archive {
 				if (gzip_magic) {
 					out.write(file[i]);
 				}
-				// if (i%2 == 0) {
-				// System.out.print(byte_current);
-				// }
-				// else
-				// {
-				// System.out.print(byte_current+" ");
-				// }
 				lastBytes[3] = lastBytes[2];
 				lastBytes[2] = lastBytes[1];
 				lastBytes[1] = lastBytes[0];
