@@ -167,7 +167,7 @@ public class Cryptography {
 		File f;
 
 		if (os.indexOf("linux") >= 0) {
-			System.out.println("LINUX");
+			//DEBUG System.out.println("LINUX");
 			f = new File("/tmp/Cryptography/");
 			if (! f.exists())
 				f.mkdirs();
@@ -176,7 +176,7 @@ public class Cryptography {
 				if (! f.delete())
 					System.err.println("No writing access to temp files");
 		} else if (os.indexOf("win") >= 0) {
-			System.out.println("WINDOWS");
+			//DEBUG System.out.println("WINDOWS");
 			f = new File("C:\\Users\\" + System.getProperty("user.name") + "\\AppData\\Local\\Temp\\Cryptography\\");
 			if (! f.exists())
 				f.mkdirs();
@@ -204,7 +204,7 @@ public class Cryptography {
 		if (medium != null) {
 			ar.extractGZIP();
 			ar.decompress();
-			return readFile(medium.toString());
+			return readFile(decr.toString());
 		}
 		return "File not loaded!";
 	}

@@ -49,7 +49,7 @@ public class Archive {
 		try {
 
 			InputStream in = new BufferedInputStream(new FileInputStream(_medium));
-			
+
 			ByteArrayOutputStream bout = new ByteArrayOutputStream();
 
 			while ((len = in.read(buffer)) > 0) {
@@ -71,9 +71,9 @@ public class Archive {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		
+
 		String log = (gzip_magic) ? "GZIP-Header found" : "No GZIP found";
-		System.out.println(log);
+		//DEBUG System.out.println(log);
 		return !gzip_magic;
 	}
 
@@ -94,10 +94,10 @@ public class Archive {
 				gzos.finish();
 				gzos.close();
 
-				System.out.println("Compressed " + _message + "and appended it to: " + _medium);
+				//DEBUG System.out.println("Compressed " + _message + "and appended it to: " + _medium);
 			} catch (IOException ex) {
 				ex.printStackTrace();
-			} 
+			}
 		}
 	}
 
@@ -145,7 +145,7 @@ public class Archive {
 
 			int last_complete_byte_array = (gzip_position - gzip_position % buffer.length) / buffer.length;
 			int second_loop_start = gzip_position - gzip_position % buffer.length;
-			// System.out.println(last_complete_byte_array);
+			// //DEBUG System.out.println(last_complete_byte_array);
 
 			if (gzip_magic) {
 				FileOutputStream in_restored = new FileOutputStream(_medium);//
@@ -159,7 +159,7 @@ public class Archive {
 				}
 			}
 			String log = (gzip_magic) ? "GZIP found and extracted to: " + _temp : "No GZIP found";
-			System.out.println(log);
+			//DEBUG System.out.println(log);
 
 			in.close();
 			out.close();
@@ -184,7 +184,7 @@ public class Archive {
 			while ((len = gzis.read(buffer)) != -1) {
 				out.write(buffer, 0, len);
 			}
-			System.out.println("Decompressed to: " + _message_decompressed);
+			//DEBUG System.out.println("Decompressed to: " + _message_decompressed);
 
 			gzis.close();
 			out.close();
@@ -212,10 +212,10 @@ public class Archive {
 		byte[] test = { -1, 31, -117, 64, 1, -26 };
 		String ashex_old = "";
 		for (int i = 0; i < test.length; i++) {
-			System.out.println(String.format("%02x", test[i]));
+			//DEBUG System.out.println(String.format("%02x", test[i]));
 			String ashex = String.format("%02x", test[i]);
 			if (ashex_old.equals("1f") && ashex.equals("8b")) {
-				System.out.println("Hans");
+				//DEBUG System.out.println("Hans");
 			}
 			ashex_old = ashex;
 		}

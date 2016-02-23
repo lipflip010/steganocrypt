@@ -32,7 +32,6 @@ public class EPanel extends JPanel {
 	private JTextField _key;
 	private JButton _encode;
 	private JButton _decode;
-	private JButton _choose_carrier;
 	private JButton _load;
 	private JButton _hide;
 
@@ -57,12 +56,10 @@ public class EPanel extends JPanel {
 		_output.setLineWrap(true);
 		_key = new JTextField();
 		_key.addKeyListener(kh);
-		_choose_carrier = new JButton(LABEL_BUTTON_STEGANOGRAPHY);
 		_hide = new JButton(LABEL_BUTTON_HIDE);
 		_load = new JButton(LABEL_BUTTON_LOAD);
 		_hide.addActionListener(ah);
 		_load.addActionListener(ah);
-		_choose_carrier.addActionListener(ah);
 		_encode = new JButton(LABEL_BUTTON_ENCODE);
 		_encode.addActionListener(ah);
 		_decode = new JButton(LABEL_BUTTON_DECODE);
@@ -81,8 +78,7 @@ public class EPanel extends JPanel {
 		center.add(input_panel);
 		center.add(new JScrollPane(_output));
 
-		JPanel steganography = new JPanel(new GridLayout(0,3));
-		steganography.add(_choose_carrier);
+		JPanel steganography = new JPanel(new GridLayout(1, 0));
 		steganography.add(_load);
 		steganography.add(_hide);
 
@@ -99,9 +95,7 @@ public class EPanel extends JPanel {
 			} else if ((JButton) e.getSource() == _decode) {
 				_output.setText(cry.decode(_input.getText(), _key.getText()));
 				_encode_was_last = false;
-			} else if ((JButton) e.getSource() == _choose_carrier){
-
-			}else if((JButton) e.getSource() == _hide){
+			} else if((JButton) e.getSource() == _hide){
 				cry.hide(_output.getText());
 			}
 			else if((JButton) e.getSource() == _load){
