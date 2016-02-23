@@ -22,14 +22,19 @@ public class EPanel extends JPanel {
 	private static final String LABEL_JFRAME_TITLE = "Verschluesselung";
 	private static final String LABEL_BUTTON_ENCODE = "Encode";
 	private static final String LABEL_BUTTON_DECODE = "Decode";
-	private static final String LABEL_BUTTON_STEGANOGRAPHY = "Steganography";
+	private static final String LABEL_BUTTON_STEGANOGRAPHY = "Choose File";
+	private static final String LABEL_BUTTON_LOAD ="Load";
+	private static final String LABEL_BUTTON_HIDE ="Hide";
+	
 
 	private JTextArea _input;
 	private JTextArea _output;
 	private JTextField _key;
 	private JButton _encode;
 	private JButton _decode;
-	private JButton _steganography;
+	private JButton _choose_carrier;
+	private JButton _load;
+	private JButton _hide;
 
 	private boolean _encode_was_last;
 
@@ -52,8 +57,12 @@ public class EPanel extends JPanel {
 		_output.setLineWrap(true);
 		_key = new JTextField();
 		_key.addKeyListener(kh);
-		_steganography = new JButton(LABEL_BUTTON_STEGANOGRAPHY);
-		_steganography.addActionListener(ah);
+		_choose_carrier = new JButton(LABEL_BUTTON_STEGANOGRAPHY);
+		_hide = new JButton(LABEL_BUTTON_HIDE);
+		_load = new JButton(LABEL_BUTTON_LOAD);
+		_hide.addActionListener(ah);
+		_load.addActionListener(ah);
+		_choose_carrier.addActionListener(ah);
 		_encode = new JButton(LABEL_BUTTON_ENCODE);
 		_encode.addActionListener(ah);
 		_decode = new JButton(LABEL_BUTTON_DECODE);
@@ -70,11 +79,16 @@ public class EPanel extends JPanel {
 
 		JPanel center = new JPanel(new GridLayout(0, 1));
 		center.add(input_panel);
-
 		center.add(new JScrollPane(_output));
+		
+		JPanel steganography = new JPanel(new GridLayout(0,3));
+		steganography.add(_choose_carrier);
+		steganography.add(_load);
+		steganography.add(_hide);
 
 		add(center, BorderLayout.CENTER);
-		add(_steganography, BorderLayout.SOUTH);
+		add(steganography, BorderLayout.SOUTH);
+		
 	}
 
 	private class ActionHandler implements ActionListener {
@@ -85,8 +99,15 @@ public class EPanel extends JPanel {
 			} else if ((JButton) e.getSource() == _decode) {
 				_output.setText(cry.decode(_input.getText(), _key.getText()));
 				_encode_was_last = false;
-			} else if ((JButton) e.getSource() == _steganography)
+			} else if ((JButton) e.getSource() == _choose_carrier){
 				cry.appendToFile(_output.getText());
+			}else if((JButton) e.getSource() == _hide){
+				System.out.println("Hide");
+			}
+			else if((JButton) e.getSource() == _load){
+				System.out.println("Load");
+			}
+				
 		}
 	}
 
