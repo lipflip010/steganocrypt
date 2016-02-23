@@ -20,6 +20,8 @@ public class Cryptography {
 	private Archive ar;
 
 	public Cryptography() {
+		ar = new Archive(medium.toString(), text.toString(), temp.toString(), decr.toString());
+
 		temp = findTempFile("temp");
 		text = findTempFile("text");
 		decr = findTempFile("decompressed");
@@ -194,13 +196,12 @@ public class Cryptography {
 		return f;
 	}
 
-	public void appendToFile(String t) {
+	public void hide(String t) {
 		if (medium == null)
 			medium = chooseFile();
 		if (medium != null) {
 			writeFile(text.toString(), t);
-			ar = new Archive(medium.toString(), text.toString(), temp.toString(), decr.toString());
-			
+			ar.compress();
 		}
 	}
 
@@ -213,12 +214,6 @@ public class Cryptography {
 			return readFile(medium.toString());
 		}
 		return "File not loaded!";
-	}
-
-	public void hide(){
-		if (ar!=null) {
-			ar.compress();
-		}
 	}
 
 	public void steganography(EPanel ep) {
