@@ -27,35 +27,33 @@ public class EPanel extends JPanel {
 	private static final String LABEL_BUTTON_HIDE ="Hide";
 
 
-	private JTextArea _input;
-	private JTextArea _output;
+	private JTextArea _crypto;
+	private JTextArea _log_output;
 	private JTextField _key;
 	private JButton _encode;
 	private JButton _decode;
 	private JButton _load;
 	private JButton _hide;
 	private JButton _choose;
-	private boolean _encode_was_last;
+
 
 	private Cryptography cry;
 
 	public EPanel() {
 		setLayout(new BorderLayout());
 
-		_encode_was_last = true;
 		cry = new Cryptography();
 
 		ActionHandler ah = new ActionHandler();
-		KeyHandler kh = new KeyHandler();
 
-		_input = new JTextArea();
-		_input.setLineWrap(true);
-		_input.addKeyListener(kh);
-		_output = new JTextArea();
-		_output.setEditable(false);
-		_output.setLineWrap(true);
+		_crypto = new JTextArea();
+		_crypto.setLineWrap(true);
+	
+		_log_output = new JTextArea();
+		_log_output.setEditable(false);
+		_log_output.setLineWrap(true);
 		_key = new JTextField();
-		_key.addKeyListener(kh);
+		
 		_hide = new JButton(LABEL_BUTTON_HIDE);
 		_load = new JButton(LABEL_BUTTON_LOAD);
 		_choose = new JButton(LABEL_BUTTON_CHOOSE);
@@ -73,12 +71,12 @@ public class EPanel extends JPanel {
 		buttons.add(_encode);//test
 
 		JPanel input_panel = new JPanel(new BorderLayout());
-		input_panel.add(new JScrollPane(_input), BorderLayout.CENTER);
+		input_panel.add(new JScrollPane(_crypto), BorderLayout.CENTER);
 		input_panel.add(buttons, BorderLayout.SOUTH);
 
 		JPanel center = new JPanel(new GridLayout(0, 1));
 		center.add(input_panel);
-		center.add(new JScrollPane(_output));
+		center.add(new JScrollPane(_log_output));
 
 		JPanel steganography = new JPanel(new GridLayout(1, 3));
 		steganography.add(_load);
@@ -93,32 +91,27 @@ public class EPanel extends JPanel {
 	private class ActionHandler implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			if ((JButton) e.getSource() == _encode) {
-				_output.setText(cry.encode(_input.getText(), _key.getText()));
-				_encode_was_last = true;
+				_crypto.setText(cry.encode(_crypto.getText(), _key.getText()));
+				_log_output.setText(cry.getLog());
+				
 			} else if ((JButton) e.getSource() == _decode) {
-				_output.setText(cry.decode(_input.getText(), _key.getText()));
-				_encode_was_last = false;
+				_crypto.setText(cry.decode(_crypto.getText(), _key.getText()));
+				_log_output.setText(cry.getLog());
 			} else if((JButton) e.getSource() == _hide){
-				cry.hide(_output.getText());
+				cry.hide(_log_output.getText());
+				_log_output.setText(cry.getLog());
 			}
 			else if((JButton) e.getSource() == _load){
-				_input.setText(cry.load());
+				_crypto.setText(cry.load());
+				_log_output.setText(cry.getLog());
 			}
 			else if((JButton) e.getSource() == _choose){
 				cry.chooseMedium();
+				_log_output.setText(cry.getLog());
 			}
 		}
 	}
 
-	private class KeyHandler extends KeyAdapter {
-		public void keyReleased(KeyEvent e) {
-			if (_encode_was_last) {
-				_output.setText(cry.encode(_input.getText(), _key.getText()));
-			} else {
-				_output.setText(cry.decode(_input.getText(), _key.getText()));
-			}
-		}
-	}
 
 	public static void build() {
 		JFrame f = new JFrame(LABEL_JFRAME_TITLE);
