@@ -70,7 +70,7 @@ public class EPanel extends JPanel {
 		JPanel buttons = new JPanel(new GridLayout(1, 3));
 		buttons.add(_decode);
 		buttons.add(_key);
-		buttons.add(_encode);
+		buttons.add(_encode);//test
 
 		JPanel input_panel = new JPanel(new BorderLayout());
 		input_panel.add(new JScrollPane(_input), BorderLayout.CENTER);
