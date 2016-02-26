@@ -192,7 +192,7 @@ public class Cryptography {
 	}
 
 	public void hide(String t) {
-		chooseMedium();
+		
 		if (medium != null) {
 			writeFile(text.toString(), t);
 			ar.compress();
@@ -200,7 +200,7 @@ public class Cryptography {
 	}
 
 	public String load() {
-		chooseMedium();
+	
 		if (medium != null) {
 			ar.extractGZIP();
 			ar.decompress();

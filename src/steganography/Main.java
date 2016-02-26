@@ -10,8 +10,8 @@ public class Main {
 				"G:\\Dokumente\\Workspace\\steganography\\src\\Secret_Message.gz",
 				"G:\\Dokumente\\Workspace\\steganography\\src\\Secret_Message_decompressed.txt");
 
-		gZip.compress();
-		gZip.extractGZIP();
+		//gZip.compress();
+		//gZip.extractGZIP();
 		gZip.decompress();
 
 	}

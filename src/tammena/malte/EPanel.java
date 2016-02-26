@@ -22,7 +22,7 @@ public class EPanel extends JPanel {
 	private static final String LABEL_JFRAME_TITLE = "Verschluesselung";
 	private static final String LABEL_BUTTON_ENCODE = "Encode";
 	private static final String LABEL_BUTTON_DECODE = "Decode";
-	private static final String LABEL_BUTTON_STEGANOGRAPHY = "Choose File";
+	private static final String LABEL_BUTTON_CHOOSE = "Choose File";
 	private static final String LABEL_BUTTON_LOAD ="Load";
 	private static final String LABEL_BUTTON_HIDE ="Hide";
 
@@ -34,7 +34,7 @@ public class EPanel extends JPanel {
 	private JButton _decode;
 	private JButton _load;
 	private JButton _hide;
-
+	private JButton _choose;
 	private boolean _encode_was_last;
 
 	private Cryptography cry;
@@ -58,14 +58,16 @@ public class EPanel extends JPanel {
 		_key.addKeyListener(kh);
 		_hide = new JButton(LABEL_BUTTON_HIDE);
 		_load = new JButton(LABEL_BUTTON_LOAD);
+		_choose = new JButton(LABEL_BUTTON_CHOOSE);
 		_hide.addActionListener(ah);
 		_load.addActionListener(ah);
+		_choose.addActionListener(ah);
 		_encode = new JButton(LABEL_BUTTON_ENCODE);
 		_encode.addActionListener(ah);
 		_decode = new JButton(LABEL_BUTTON_DECODE);
 		_decode.addActionListener(ah);
 
-		JPanel buttons = new JPanel(new GridLayout(1, 0));
+		JPanel buttons = new JPanel(new GridLayout(1, 3));
 		buttons.add(_decode);
 		buttons.add(_key);
 		buttons.add(_encode);
@@ -78,9 +80,10 @@ public class EPanel extends JPanel {
 		center.add(input_panel);
 		center.add(new JScrollPane(_output));
 
-		JPanel steganography = new JPanel(new GridLayout(1, 0));
+		JPanel steganography = new JPanel(new GridLayout(1, 3));
 		steganography.add(_load);
 		steganography.add(_hide);
+		steganography.add(_choose);
 
 		add(center, BorderLayout.CENTER);
 		add(steganography, BorderLayout.SOUTH);
@@ -101,6 +104,9 @@ public class EPanel extends JPanel {
 			else if((JButton) e.getSource() == _load){
 				_input.setText(cry.load());
 			}
+			else if((JButton) e.getSource() == _choose){
+				cry.chooseMedium();
+			}
 		}
 	}
 
@@ -118,7 +124,7 @@ public class EPanel extends JPanel {
 		JFrame f = new JFrame(LABEL_JFRAME_TITLE);
 		f.add(new EPanel());
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.setMinimumSize(new Dimension(600, 700));
+		f.setMinimumSize(new Dimension(800, 500));
 		f.setLocationRelativeTo(null);
 		f.setVisible(true);
 	}
