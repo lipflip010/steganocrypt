@@ -13,6 +13,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
 import javax.swing.JFileChooser;
 import steganography.Archive;
+import sun.rmi.runtime.Log;
 
 public class Cryptography {
 
@@ -206,14 +207,14 @@ public class Cryptography {
 
 		if (medium != null) {
 			writeFile(text.toString(), t);
-			ar.compress();
+			_log.append(ar.compress()+"\n");
 		}
 	}
 
 	public String load() {
 
 		if (medium != null) {
-			ar.extractGZIP();
+			_log.append(ar.extractGZIP()+"\n");
 			ar.decompress();
 			return readFile(decr.toString());
 		}

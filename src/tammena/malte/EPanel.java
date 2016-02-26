@@ -98,7 +98,7 @@ public class EPanel extends JPanel {
 				_crypto.setText(cry.decode(_crypto.getText(), _key.getText()));
 				_log_output.setText(cry.getLog());
 			} else if((JButton) e.getSource() == _hide){
-				cry.hide(_log_output.getText());
+				cry.hide(_crypto.getText());
 				_log_output.setText(cry.getLog());
 			}
 			else if((JButton) e.getSource() == _load){
