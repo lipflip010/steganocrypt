@@ -27,6 +27,7 @@ public class Archive {
 	private String _message_decompressed; // Datei, in der das entpackte
 											// Ergebnis gespeichert wird
 	private boolean _carrier_valid;
+
 	public Archive(String medium, String message, String temp, String message_decompressed) {
 		_medium = medium;
 		_message = message;
@@ -73,11 +74,11 @@ public class Archive {
 		}
 
 		String log = (gzip_magic) ? "GZIP-Header found" : "No GZIP found";
-		//DEBUG System.out.println(log);
+		// DEBUG System.out.println(log);
 		return !gzip_magic;
 	}
 
-	public void compress() {
+	public String compress() {
 
 		if (_carrier_valid) {
 			byte[] buffer = new byte[1024];
@@ -94,10 +95,12 @@ public class Archive {
 				gzos.finish();
 				gzos.close();
 
-				//DEBUG System.out.println("Compressed " + _message + "and appended it to: " + _medium);
+				return "Compressed message and appended to carrier file";
 			} catch (IOException ex) {
-				ex.printStackTrace();
+				return "";
 			}
+		} else {
+			return "Invalid carrier file";
 		}
 	}
 
@@ -106,13 +109,14 @@ public class Archive {
 	 * und schreibt diesen in eine temporaere .gz Datei. Zudem wird der GZIP
 	 * Abschnitt von der Quelldatei entfernt.
 	 */
-	public void extractGZIP() {
+	public String extractGZIP() {
 		byte[] buffer = new byte[1024];
 		boolean gzip_magic = false;
 		String[] lastBytes = { "", "", "", "" };
 		int len;
 		int gzip_position = 0;
-
+		String log="";
+		String log_debug="";
 		try {
 
 			InputStream in = new BufferedInputStream(new FileInputStream(_medium));
@@ -158,8 +162,9 @@ public class Archive {
 					in_restored.write(file[i]);
 				}
 			}
-			String log = (gzip_magic) ? "GZIP found and extracted to: " + _temp : "No GZIP found";
-			//DEBUG System.out.println(log);
+			log_debug = (gzip_magic) ? "GZIP found and extracted to: " + _temp : "No GZIP found";
+			log = (gzip_magic) ? "Hidden message found and loaded into text area" : "No hidden message found";
+			// DEBUG System.out.println(log);
 
 			in.close();
 			out.close();
@@ -168,6 +173,7 @@ public class Archive {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return log;
 	}
 
 	/*
@@ -184,7 +190,8 @@ public class Archive {
 			while ((len = gzis.read(buffer)) != -1) {
 				out.write(buffer, 0, len);
 			}
-			//DEBUG System.out.println("Decompressed to: " + _message_decompressed);
+			// DEBUG System.out.println("Decompressed to: " +
+			// _message_decompressed);
 
 			gzis.close();
 			out.close();
@@ -212,10 +219,10 @@ public class Archive {
 		byte[] test = { -1, 31, -117, 64, 1, -26 };
 		String ashex_old = "";
 		for (int i = 0; i < test.length; i++) {
-			//DEBUG System.out.println(String.format("%02x", test[i]));
+			// DEBUG System.out.println(String.format("%02x", test[i]));
 			String ashex = String.format("%02x", test[i]);
 			if (ashex_old.equals("1f") && ashex.equals("8b")) {
-				//DEBUG System.out.println("Hans");
+				// DEBUG System.out.println("Hans");
 			}
 			ashex_old = ashex;
 		}
